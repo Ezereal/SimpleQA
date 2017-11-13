@@ -47,14 +47,14 @@ class NBClassifier(object):
             for feature in subTuple[0]:
                 dictFeatures[subTuple[1]][feature] = 1 if dictFeatures[subTuple[1]][feature] == None else dictFeatures[subTuple[1]][feature] + 1
 
-        # 将训练样本中没有的项目，由None改为一个非常小的数值，表示其概率极小而并非是零
+        # 将训练样本中没有的项目，由None改为零
         for tag,feature in dictFeatures.items():
             for key,value in feature.items():
                 if value == None:
                     feature[key] = 0
 
         # 由特征频率计算特征的条件概率P(feature|tag)
-        for tag,fearure in dictFeatures.items():
+        for tag,feature in dictFeatures.items():
             totalValue = sum([x for x in feature.values() if x != None])
             for key,value in feature.items():
                 feature[key] = value / totalValue if value != None else None
@@ -67,12 +67,9 @@ class NBClassifier(object):
 
         # 计算每个tag的条件概率
         for key,value in self.tagProbablity.items():
-
             iNumList = []
             for feature in features:
-                if self.featuresProbablity[key][feature]:
-                    iNumList.append(self.featuresProbablity[key][feature])
-
+                iNumList.append(self.featuresProbablity[key][feature])
             conditionPr = 1
             for iNum in iNumList:
                 conditionPr *= iNum
@@ -85,6 +82,7 @@ if __name__ == '__main__':
 
     trainSet = [
         ({"是","谁"},"人物"),
+        ({"哪一位"}, "人物"),
         ({"在","哪"},"地点"),
         ({"哪里"}, "地点"),
         ({"什么","地方"}, "地点"),
@@ -93,6 +91,7 @@ if __name__ == '__main__':
         ({"多","宽"}, "数字"),
         ({"什么","时候"}, "时间"),
         ({"何时"}, "时间"),
+        ({"多久"}, "时间"),
         ({"什么","东西"}, "实体"),
         ({"是","什么"}, "实体"),
         ({"因为","什么"}, "描述"),
@@ -102,5 +101,5 @@ if __name__ == '__main__':
 
     classifier = NBClassifier()
     classifier.train(trainSet)
-    result = classifier.classify({"多少"})
+    result = classifier.classify(input().split(','))
     print(result)
