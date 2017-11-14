@@ -5,82 +5,90 @@
 class NBClassifier(object):
 
     def __init__(self):
-        
+        self.tagprobablity = {}
+        self.featuresprobablity = {}
         pass
 
-    def train(self,trainSet):
+    def train(self, trainset):
 
         # 计算每种类别的概率
-		# 保存所有tag的所有种类，及它们出现的频次
-        dictTag = {}
+        # 保存所有tag的所有种类,及它们出现的频次
+        
+        dicttag = {}
 
-        for subTuple in trainSet:
-            dictTag[str(subTuple[1])] = 1 if str(subTuple[1]) not in dictTag.keys() else dictTag[str(subTuple[1])] + 1
+        for subTuple in trainset:
+            if str(subTuple[1]) not in dicttag.keys():
+                dicttag[str(subTuple[1])] = 1
+            else:
+                dicttag[str(subTuple[1])] = dicttag[str(subTuple[1])] + 1
 
         # 保存每个tag本身的概率
-        tagProbablity = {}
+        tagprobablity = {}
 
-        totalValue = sum([value for value in dictTag.values()])
+        totalvalue = sum([value for value in dicttag.values()])
 
-        for key,value in dictTag.items():
-            tagProbablity[key] = value / totalValue
+        for key, value in dicttag.items():
+            tagprobablity[key] = value / totalvalue
 
-        self.tagProbablity = tagProbablity
+        self.tagprobablity = tagprobablity
 
         # 计算特征的条件概率
-		# 保存特征属性基本信息
-        dictFeaturesBase = {}
+        # 保存特征属性基本信息
+        dictfeaturesbase = {}
 
-        for subTuple in trainSet:
+        for subTuple in trainset:
             for feature in subTuple[0]:
-                if feature not in dictFeaturesBase.keys():
-                    dictFeaturesBase[feature] = 1
+                if feature not in dictfeaturesbase.keys():
+                    dictfeaturesbase[feature] = 1
                 else:
-                    dictFeaturesBase[feature] += 1
+                    dictfeaturesbase[feature] += 1
 
-        dictFeatures = {}.fromkeys([key for key in dictTag])
+        dictfeatures = {}.fromkeys([key for key in dicttag])
 
-        for key in dictFeatures.keys():
-            dictFeatures[key] = {}.fromkeys([key for key in dictFeaturesBase])
+        for key in dictfeatures.keys():
+            dictfeatures[key] = {}.fromkeys([key for key in dictfeaturesbase])
 
-        for subTuple in trainSet:
+        for subTuple in trainset:
             for feature in subTuple[0]:
-                dictFeatures[subTuple[1]][feature] = 1 if dictFeatures[subTuple[1]][feature] == None else dictFeatures[subTuple[1]][feature] + 1
+                if dictfeatures[subTuple[1]][feature] is None:
+                    dictfeatures[subTuple[1]][feature] = 1
+                else:
+                    dictfeatures[subTuple[1]][feature] = dictfeatures[subTuple[1]][feature] + 1
 
         # 将训练样本中没有的项目，由None改为零
-        for tag,feature in dictFeatures.items():
-            for key,value in feature.items():
-                if value == None:
+        for tag, feature in dictfeatures.items():
+            for key, value in feature.items():
+                if value is None:
                     feature[key] = 0
 
         # 由特征频率计算特征的条件概率P(feature|tag)
-        for tag,feature in dictFeatures.items():
-            totalValue = sum([x for x in feature.values() if x != None])
-            for key,value in feature.items():
-                feature[key] = value / totalValue if value != None else None
+        for tag, feature in dictfeatures.items():
+            totalvalue = sum([x for x in feature.values() if x is not None])
+            for key, value in feature.items():
+                feature[key] = value / totalvalue if value is not None else None
 
-        self.featuresProbablity = dictFeatures
+        self.featuresprobablity = dictfeatures
 
-
-    def classify(self,features):
-        resultDict = {}
+    def classify(self, features):
+        resultdict = {}
 
         # 计算每个tag的条件概率
-        for key,value in self.tagProbablity.items():
-            iNumList = []
+        for key, value in self.tagprobablity.items():
+            numlist = []
             for feature in features:
-                iNumList.append(self.featuresProbablity[key][feature])
-            conditionPr = 1
-            for iNum in iNumList:
-                conditionPr *= iNum
-            resultDict[key] = value * conditionPr
+                numlist.append(self.featuresprobablity[key][feature])
+            condition = 1
+            for iNum in numlist:
+                condition *= iNum
+            resultdict[key] = value * condition
 
-        resultList = sorted(resultDict.items(),key = lambda x:x[1],reverse=True)
-        return resultList[0][0]
+        resultlist = sorted(resultdict.items(), key=lambda x: x[1], reverse=True)
+        return resultlist[0][0]
+
 
 if __name__ == '__main__':
 
-    trainSet = [
+    trainset_test = [
         ({"是", "谁"}, "人物"),
         ({"哪一位"}, "人物"),
         ({"在", "哪"}, "地点"),
@@ -100,6 +108,6 @@ if __name__ == '__main__':
     ]
 
     classifier = NBClassifier()
-    classifier.train(trainSet)
+    classifier.train(trainset_test)
     result = classifier.classify(input().split(','))
     print(result)
