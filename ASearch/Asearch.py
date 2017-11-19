@@ -23,16 +23,16 @@ def search(query):
 
 
 if __name__ == '__main__':
-    flag, answer = search("python字符串包dasdasd")
-    print(flag+':')
-    if flag == ASearch.Tupu_str:
+    description, answer = search("python字符串包dasdasd")
+    print(description+':')
+    if description == ASearch.Tupu_str:
         print(answer[0])
-    elif flag == ASearch.Baike_str:
+    elif description == ASearch.Baike_str:
         print(answer[0])
-    elif flag == ASearch.Zhidao_str:
+    elif description == ASearch.Zhidao_str:
         for s in answer:
             print(s)
-    elif flag == ASearch.Other_str:
+    elif description == ASearch.Other_str:
         for s in answer:
             print(s)
 

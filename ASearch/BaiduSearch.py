@@ -7,7 +7,6 @@ from ASearch import GetCanAnswer
 class BSearcher(object):
 
     def __init__(self, query):
-        query = query.replace(' ', '')
         self.soup = ASearch.get_soup(ASearch.baidu_url+query)
         self.answer = []
         self.low_answer = []
