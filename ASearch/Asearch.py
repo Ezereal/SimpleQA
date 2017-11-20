@@ -23,7 +23,7 @@ def search(query):
 
 
 if __name__ == '__main__':
-    description, answer = search("python字符串包dasdasd")
+    description, answer = search("一年有多少周")
     print(description+':')
     if description == ASearch.Tupu_str:
         print(answer[0])

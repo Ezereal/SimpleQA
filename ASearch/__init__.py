@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # 定义检索的答案数
-search_num = 10
+search_num = 8
 # 定义baidu URL
 baidu_url = "https://www.baidu.com/s?wd="
 # 定义header

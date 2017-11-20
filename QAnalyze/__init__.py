@@ -1,3 +1,3 @@
-# 保存输入文本名字
-datafile_name = "Qkeyword_category"
-featurefile_name = "Features"
+# 保存文本路径
+datafile_name = "QAnalyze/Qkeyword_category"
+featurefile_name = "QAnalyze/Features"

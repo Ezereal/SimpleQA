@@ -2,7 +2,31 @@
 # -*- coding: utf-8 -*-
 
 import AExtract
+import jieba
 import jieba.posseg as pseg
+
+
+def get_wordattr(word):
+    result = pseg.cut(word)
+    for res in result:
+        return res.flag
+
+
+def get_words(sentence):
+    words = set()
+    result = jieba.cut(sentence)
+    for res in result:
+        words.add(res)
+    return words
+
+
+def get_keywords(sentence):
+    keywords = set()
+    result = pseg.cut(sentence)
+    for res in result:
+        if res.flag in AExtract.keyword_set:
+            keywords.add(res.word)
+    return keywords
 
 
 def get_attribute(sentence):
@@ -19,4 +43,5 @@ def get_attribute(sentence):
 
 
 if __name__ == '__main__':
+    print(get_keywords("今天张三去了北京,坐了十个小时的车"))
     print(get_attribute("今天张三去了北京,坐了十个小时的车"))
