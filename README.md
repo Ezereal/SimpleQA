@@ -7,5 +7,8 @@
     You can also use other methods to install the libraries what i just said, but
 no matter which way you use it, you should make sure the libraries can be used in python3.
 
-    If the keywords or categories are changed,the traindata_read.py should be run to
+    By running the file startup.py with python3, you can enter your question and then
+you'll get your answer.
+
+    Tips:If the keywords or categories are changed, the traindata_read.py should be run to
 update the featurefile.
