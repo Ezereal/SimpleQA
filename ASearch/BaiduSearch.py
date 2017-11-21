@@ -29,7 +29,7 @@ class BSearcher(object):
             sub_soup = self.soup.find(id=i)
             # 检索百度百科的答案
             result = sub_soup.find('a')
-            if result.get_text().__contains__("百度百科"):
+            if result and result.get_text().__contains__("百度百科"):
                 self.search_numset.remove(i)
                 baike_answer = GetCanAnswer.get_baike_answer(result['href'])
                 if baike_answer:
@@ -44,7 +44,7 @@ class BSearcher(object):
             sub_soup = self.soup.find(id=i)
             # 检索百度知道的答案
             result = sub_soup.find("a")
-            if result.get_text().__contains__("百度知道"):
+            if result and result.get_text().__contains__("百度知道"):
                 self.search_numset.remove(i)
                 flag, zhidao_answer = GetCanAnswer.get_zhidao_answer(result['href'])
                 # 检索到最佳答案
@@ -63,7 +63,7 @@ class BSearcher(object):
             sub_soup = self.soup.find(id=i)
             # 检索其他网页的答案
             result = sub_soup.find("a")
-            if result.get_text().__contains__("百度知道"):
+            if result and result.get_text().__contains__("百度知道"):
                 continue
             flag, other_answer = GetCanAnswer.get_other_answer(result['href'])
             if flag == 'GetAnswer':

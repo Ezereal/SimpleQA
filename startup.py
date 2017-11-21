@@ -10,6 +10,7 @@ def question_answer():
     query = input("请输入您的问题:")
     query = query.replace(' ', '')
     category = QAnalyze.Qanalyze.analyze(query)
+    print("您的问题类别:" + category)
     description, cananswer = ASearch.Asearch.search(query)
     # for s in cananswer:
     #    print(s)

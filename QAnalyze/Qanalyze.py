@@ -39,7 +39,7 @@ if __name__ == '__main__':
     reader_test = traindata_read.DataReader()
     classifier_test = NBclassifier.NBClassifier()
     classifier_test.train(reader_test.trainset)
-    print(classifier_test.classify(getquestionkey("这是什么东西")))
+    print(classifier_test.classify(getquestionkey("黄河有多长")))
 
 
 
