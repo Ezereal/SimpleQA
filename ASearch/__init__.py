@@ -1,6 +1,7 @@
-import requests
 from bs4 import BeautifulSoup
-
+import requests
+from os.path import join, abspath
+requests.utils.DEFAULT_CA_BUNDLE_PATH = join(abspath('.'), 'cacert.pem')
 # 定义检索的答案数
 search_num = 8
 # 定义baidu URL

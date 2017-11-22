@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import jieba
 import QAnalyze
 from QAnalyze import NBclassifier
 from QAnalyze import traindata_read
+import jieba
+jieba.set_dictionary("dict.txt")
+jieba.initialize()
 
 
 def getquestionkey(question, featurefile_name=QAnalyze.featurefile_name):

@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import AExtract
-import jieba
 import jieba.posseg as pseg
+import jieba
+jieba.set_dictionary("dict.txt")
+jieba.initialize()
 
 
 def get_wordattr(word):
